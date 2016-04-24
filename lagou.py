@@ -5,8 +5,9 @@ Created on Sun Apr 24 11:21:13 2016
 @author: admin
 """
 import urllib
-import requests
+import urllib2
 import json
+#import request
 
 i =1
 url = 'http://www.lagou.com/jobs/positionAjax.json?px=default&city=%E5%8C%97%E4%BA%AC'
@@ -24,9 +25,11 @@ f.write('\n')
 for i in range(1,31):
     data ={'first':'true', 'pn':str(i), 'kd':'python'}
     data=urllib.urlencode(data)
-    wb_data = requests.post(url, headers = headers ,data = data)
-    
-    lagou = json.loads(wb_data.content)
+    wb_data = urllib2.Request(url, headers = headers ,data = data)
+    lagou = json.loads(urllib2.urlopen(wb_data).read())
+    #如果用request模块的话，对data就不编码,即
+    #data ={'first':'true', 'pn':str(i), 'kd':'python'}
+    #lagou = json.loads(requests.post(url,headers = headers, data =data))
    
     for i in range(15):
         for title in titles:
