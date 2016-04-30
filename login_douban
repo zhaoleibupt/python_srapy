@@ -1,0 +1,37 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Apr 30 11:06:22 2016
+
+@author: admin
+"""
+
+import urllib
+import urllib2
+import cookielib
+from bs4 import BeautifulSoup
+loginUrl = 'https://accounts.douban.com/login'
+gradeUrl = 'https://www.douban.com/people/116643386/'
+
+
+cj = cookielib.CookieJar()
+handler = urllib2.HTTPCookieProcessor(cj)
+opener = urllib2.build_opener(handler)
+
+postdata={
+    'source':'index_nav',
+    'redir':'https://www.douban.com/',
+    'form_email':'18810300103',
+    'form_password':'zhaolei19930410',
+    'login':'登录'
+}
+data =urllib.urlencode(postdata)
+result = opener.open(loginUrl,data = data)
+
+
+#请求我的主页
+result = opener.open(gradeUrl)
+soup =BeautifulSoup(result.read())
+title =soup.select('p.text a')
+print title
+for name in title:
+    print name.get('href')
