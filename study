@@ -1,0 +1,56 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Apr 30 10:10:57 2016
+
+@author: admin
+"""
+
+###url = 'http://python.jobbole.com/82000/'
+#1.最基本的抓取
+import urllib2
+content = urllib2.urlopen('http://XXX').read()
+
+#2.代理服务器
+import urllib2
+proxy_support =urllib2.ProxyHandler({'http':'XX.XX.XX.XX'})
+opener = urllib2.build_opener(proxy_support, urllib2.HTTPHandler)
+urllib2.install_opener(opener)
+content = urllib2.urlopen('http://XXX').read()
+
+#3.登陆
+##3.1处理cookie
+import urllib2
+import cookielib
+cj = cookielib.CookieJar()
+cookie_support = urllib2.HTTPCookieProcessor(cj)
+opener = urllib2.build_opener(cookie_support, urllib2.HTTPHandler)
+#如果同时使用代理和cookie
+# opener = urllib2.build_opener(proxy_support,cookie_support,urllib2.HTTPHandler)
+urllib2.install_opener(opener)
+content = urllib2.urlopen('http://XXXX').read()
+
+##3.2表单登陆
+import urllib
+import urllib2
+postdata = urllib.urlencode({
+           'username': 'XXXX'
+           'key'  : 'XXX'
+           })
+req = urllib2.Request(url ='http://',data =postdata)
+result =req.urlopen(req).read()
+##3.3伪装成浏览器
+headers = {
+    'User-Agent':'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6'
+}
+req = urllib2.Request(
+    url = 'http://secure.verycd.com/signin/*/http://www.verycd.com/',
+    data = postdata,
+    headers = headers
+)
+##3.4反盗链
+headers = {
+    'Referer':'http://www.cnbeta.com/articles'
+}
+
+
+           
